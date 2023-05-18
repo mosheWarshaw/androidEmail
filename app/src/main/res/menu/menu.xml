@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/contacts"
+        android:icon="@drawable/contacts_icon"
+        android:title="Contacts"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/sendEmail"
+        android:title="Send An Email"
+        app:showAsAction="ifRoom"
+        android:icon="@drawable/send_email_icon"/>
+
+    <item
+        android:id="@+id/refreshInbox"
+        android:title="Refresh Inbox"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/getOldGroup"
+        android:title="Get An Old Group Of Emails"
+        app:showAsAction="never"/>
+</menu>

@@ -1,0 +1,30 @@
+<resources>
+
+    <!--i use NoActionBar because i provide my own Toolbar for each page.-->
+    <style name="mainTheme" parent="Theme.MaterialComponents.NoActionBar">
+        <item name="android:statusBarColor">@color/black</item>
+        <item name="android:navigationBarColor">@color/black</item>
+        <item name="android:fontFamily">@font/artifika</item>
+    </style>
+
+    <style name="toolbar" parent="Theme.MaterialComponents.CompactMenu">
+        <!--sets the color of the 3 dots icon of the menu overflow.-->
+        <item name="tint">@color/white</item>
+
+        <item name="android:textStyle">italic|bold</item>
+        <item name="titleTextColor">@color/white</item>
+    </style>
+
+    <style name="editText">
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="android:textColor">@color/text</item>
+        <item name="android:backgroundTint">@color/text</item>
+    </style>
+
+    <style name="button">
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/background</item>
+        <item name="android:backgroundTint">@color/text</item>
+    </style>
+
+</resources>

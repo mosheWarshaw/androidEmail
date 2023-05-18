@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:textColor="@color/text"
+    tools:context=".activities.SendEmailActivity">
+
+    <include
+        android:id="@+id/sendEmailsToolbar"
+        layout="@layout/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:id="@+id/sendButton"
+        style="@style/button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendEmailsToolbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:text="Send The Email" />
+
+    <EditText
+        android:id="@+id/receiverEditText"
+        style="@style/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/sendButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="receiver" />
+
+    <EditText
+        android:id="@+id/subjectEditText"
+        style="@style/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/receiverEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="subject" />
+
+    <EditText
+        android:id="@+id/bodyEditText"
+        style="@style/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/subjectEditText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:hint="body" />
+
+</RelativeLayout>
