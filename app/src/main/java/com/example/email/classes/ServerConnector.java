@@ -111,8 +111,11 @@ public class ServerConnector {
         public void onNoMessage(JSONObject returnedJson, JSONObject sentJson) throws JSONException {
             if (endPoint.equals("createAccount") || endPoint.equals("login")) {
                 Data.username = sentJson.get("username").toString();
-                JSONArray emailGroup = returnedJson.getJSONArray("emails");
-                Data.addOldEmails(emailGroup);
+                Data.password = sentJson.get("password").toString();
+                if(returnedJson.getJSONArray("emails").length() != 0){
+                    JSONArray emailGroup = returnedJson.getJSONArray("emails");
+                    Data.addOldEmails(emailGroup);
+                }
                 Data.setContacts(returnedJson.getJSONArray("contacts"));
                 Intent intent = new Intent((Context) activityReference, HomeActivity.class);
                 ((Context) activityReference).startActivity(intent);
@@ -144,7 +147,8 @@ public class ServerConnector {
 
 
         public void handleMessage(String message) {
-            //making a toast can't be done from teh conenctor thread. it has to be done from the ui thread.
+            /*Making a toast can't be done from the connector
+            thread. it has to be done from the ui thread.*/
             activityReference.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {

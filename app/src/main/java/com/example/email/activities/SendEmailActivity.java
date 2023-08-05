@@ -10,27 +10,28 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class SendEmailActivity extends AppCompatActivity {
-    private String urlStrForSe = "http://10.0.0.5:5000/sendEmailFromAndroid";
-    private ActivitySendEmailBinding seBinding;
+    private String sendEmailUrlStr = "http://10.0.0.5:5000/sendEmailFromAndroid";
+    private ActivitySendEmailBinding viewBinding;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        seBinding = ActivitySendEmailBinding.inflate(getLayoutInflater());
-        setContentView(seBinding.getRoot());
-        setSupportActionBar(seBinding.sendEmailsToolbar.toolbar);
+        viewBinding = ActivitySendEmailBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        setSupportActionBar(viewBinding.sendEmailsToolbar.toolbar);
 
-        seBinding.sendButton.setOnClickListener(new View.OnClickListener() {
+        viewBinding.sendButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JSONObject seJson = new JSONObject();
+                JSONObject jsonToSend = new JSONObject();
                 try{
-                    seJson.put("sender", Data.username);
-                    seJson.put("receiver", seBinding.receiverEditText.getText().toString());
-                    seJson.put("subject", seBinding.subjectEditText.getText().toString());
-                    seJson.put("body", seBinding.bodyEditText.getText().toString());
+                    jsonToSend.put("password", Data.password);
+                    jsonToSend.put("sender", Data.username);
+                    jsonToSend.put("receiver", viewBinding.receiverEditText.getText().toString());
+                    jsonToSend.put("subject", viewBinding.subjectEditText.getText().toString());
+                    jsonToSend.put("body", viewBinding.bodyEditText.getText().toString());
                 }catch(JSONException e){throw new RuntimeException(e);}
-                ServerConnector seServerConnector = new ServerConnector();
-                seServerConnector.connect(SendEmailActivity.this, urlStrForSe, "sendEmailFromAndroid", seJson, null);
+                ServerConnector connector = new ServerConnector();
+                connector.connect(SendEmailActivity.this, sendEmailUrlStr, "sendEmailFromAndroid", jsonToSend, null);
             }
         });
     }

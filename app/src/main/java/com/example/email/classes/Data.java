@@ -15,6 +15,8 @@ public class Data {
 
     public static String username;
 
+    public static String password;
+
     public static final int GROUP_SIZE = 25;
 
 

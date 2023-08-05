@@ -9,18 +9,18 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class LoginAndCreateAccountActivity extends AppCompatActivity {
-    private ActivityLoginAndCreateAccountBinding lcaBinding;
+    private ActivityLoginAndCreateAccountBinding viewBinding;
     private String urlStrForLogin = "http://10.0.0.5:5000/login";
     private String urlStrForCreateAccount = "http://10.0.0.5:5000/createAccount";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        lcaBinding = ActivityLoginAndCreateAccountBinding.inflate(getLayoutInflater());
-        setContentView(lcaBinding.getRoot());
-        setSupportActionBar(lcaBinding.loginAndCreateAccountToolbar.toolbar);
+        viewBinding = ActivityLoginAndCreateAccountBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        setSupportActionBar(viewBinding.loginAndCreateAccountToolbar.toolbar);
 
-        lcaBinding.loginButton.setOnClickListener(new View.OnClickListener() {
+        viewBinding.loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject loginJson = gatherDataToSend();
@@ -29,12 +29,12 @@ public class LoginAndCreateAccountActivity extends AppCompatActivity {
             }
         });
 
-        lcaBinding.createAccountButton.setOnClickListener(new View.OnClickListener() {
+        viewBinding.createAccountButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 JSONObject createAccountJson = gatherDataToSend();
-                ServerConnector createAccountConnector = new ServerConnector();
-                createAccountConnector.connect(LoginAndCreateAccountActivity.this, urlStrForCreateAccount, "createAccount", createAccountJson, null);
+                ServerConnector connector = new ServerConnector();
+                connector.connect(LoginAndCreateAccountActivity.this, urlStrForCreateAccount, "createAccount", createAccountJson, null);
             }
         });
     }
@@ -42,8 +42,8 @@ public class LoginAndCreateAccountActivity extends AppCompatActivity {
     public JSONObject gatherDataToSend(){
         JSONObject json = new JSONObject();
         try {
-            json.put("username", lcaBinding.username.getText().toString());
-            json.put("password", lcaBinding.password.getText().toString());
+            json.put("username", viewBinding.username.getText().toString());
+            json.put("password", viewBinding.password.getText().toString());
             json.put("type", "android");
         }catch(JSONException e){throw new RuntimeException(e);}
         return json;

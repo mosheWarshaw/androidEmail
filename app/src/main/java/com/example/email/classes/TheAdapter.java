@@ -17,9 +17,9 @@ public class TheAdapter extends RecyclerView.Adapter<TheViewHolder>{
         itemCount = newItemCount;
     }
 
-    private String rvToBindFor;
-    public void setRvToBindFor(String rvToBindForPar){
-        rvToBindFor = rvToBindForPar;
+    private String rvType;
+    public void setRvType(String rvTypePar){
+        rvType = rvTypePar;
     }
 
     public TheAdapter(int itemCountPar){
@@ -29,7 +29,7 @@ public class TheAdapter extends RecyclerView.Adapter<TheViewHolder>{
     @Override
     public TheViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         int layout;
-        if(rvToBindFor.equals("emails")){
+        if(rvType.equals("emails")){
             layout = R.layout.email_preview;
         }
         else{//rvToBindFor.equals("contacts")
@@ -37,14 +37,14 @@ public class TheAdapter extends RecyclerView.Adapter<TheViewHolder>{
         }
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
                 layout, parent, false);
-        return new TheViewHolder(itemView, rvToBindFor, this);
+        return new TheViewHolder(itemView, rvType, this);
     }
 
 
     @Override
     public void onBindViewHolder(@NonNull TheViewHolder holder, int position) {
         String text = null;
-        if(rvToBindFor.equals("emails")){
+        if(rvType.equals("emails")){
             String sender = Data.getEmailInfo(position, "sender");
             String subject = Data.getEmailInfo(position, "subject");
             String dt_tm = Data.getEmailInfo(position, "dt_tm");
@@ -55,5 +55,4 @@ public class TheAdapter extends RecyclerView.Adapter<TheViewHolder>{
         }
         holder.textView.setText(text);
     }
-
 }

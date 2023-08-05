@@ -12,28 +12,30 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class ContactsActivity extends AppCompatActivity {
-    private ActivityContactsBinding cBinding;
-    private String urlStrForContact = "http://10.0.0.5:5000/addContact";
+    private ActivityContactsBinding viewBinding;
+    private String addContactUrlStr = "http://10.0.0.5:5000/addContact";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        cBinding = ActivityContactsBinding.inflate(getLayoutInflater());
-        setContentView(cBinding.getRoot());
-        setSupportActionBar(cBinding.contactsToolbar.toolbar);
+        viewBinding = ActivityContactsBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        setSupportActionBar(viewBinding.contactsToolbar.toolbar);
         SetUpRv caSetUpRv = new SetUpRv();
-        caSetUpRv.setUpRv(getApplicationContext(), cBinding.contactsRv, "contacts");
+        caSetUpRv.setUpRv(getApplicationContext(), viewBinding.contactsRv, "contacts");
 
-        cBinding.addContactButton.setOnClickListener(new View.OnClickListener() {
+        viewBinding.addContactButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                JSONObject contactJson = new JSONObject();
+                JSONObject jsonToSend = new JSONObject();
                 try {
-                    contactJson.put("username", Data.username);
-                    contactJson.put("contact", cBinding.contactEditText.getText().toString());
+                    jsonToSend.put("type", "android");
+                    jsonToSend.put("username", Data.username);
+                    jsonToSend.put("password", Data.password);
+                    jsonToSend.put("contact", viewBinding.contactEditText.getText().toString());
                 }catch(JSONException e){throw new RuntimeException(e);}
-                ServerConnector cConnector = new ServerConnector();
-                cConnector.connect(ContactsActivity.this, urlStrForContact, "addContact", contactJson, null);
+                ServerConnector connector = new ServerConnector();
+                connector.connect(ContactsActivity.this, addContactUrlStr, "addContact", jsonToSend, null);
             }
         });
     }
@@ -42,8 +44,8 @@ public class ContactsActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TheAdapter)cBinding.contactsRv.getAdapter()).reassignItemCount(newItemCount);
-                cBinding.contactsRv.getAdapter().notifyItemRangeChanged(0, newItemCount);
+                ((TheAdapter)viewBinding.contactsRv.getAdapter()).reassignItemCount(newItemCount);
+                viewBinding.contactsRv.getAdapter().notifyItemRangeChanged(0, newItemCount);
             }
         });
     }

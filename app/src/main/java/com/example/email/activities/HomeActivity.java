@@ -15,18 +15,19 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class HomeActivity extends AppCompatActivity {
-    private ActivityHomeBinding haBinding;
+    private ActivityHomeBinding viewBinding;
+    private String getEmailsUrlStr = "http://10.0.0.5:5000/getEmails";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        haBinding = ActivityHomeBinding.inflate(getLayoutInflater());
-        setContentView(haBinding.getRoot());
-        setSupportActionBar(haBinding.homeToolbar.toolbar);
+        viewBinding = ActivityHomeBinding.inflate(getLayoutInflater());
+        setContentView(viewBinding.getRoot());
+        setSupportActionBar(viewBinding.homeToolbar.toolbar);
 
 
-        SetUpRv haSetUpRv = new SetUpRv();
-        haSetUpRv.setUpRv(getApplicationContext(), haBinding.emailRv, "emails");
+        SetUpRv setUpRv = new SetUpRv();
+        setUpRv.setUpRv(getApplicationContext(), viewBinding.emailRv, "emails");
     }
 
     /*When a user leaves this activity to send an email, and then they come
@@ -38,9 +39,9 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        if(Data.getEmailsSize() > haBinding.emailRv.getAdapter().getItemCount()){
-            ((TheAdapter)haBinding.emailRv.getAdapter()).reassignItemCount(Data.getEmailsSize());
-            haBinding.emailRv.getAdapter().notifyItemRangeChanged(0, Data.getEmailsSize() );
+        if(Data.getEmailsSize() > viewBinding.emailRv.getAdapter().getItemCount()){
+            ((TheAdapter)viewBinding.emailRv.getAdapter()).reassignItemCount(Data.getEmailsSize());
+            viewBinding.emailRv.getAdapter().notifyItemRangeChanged(0, Data.getEmailsSize() );
         }
     }
 
@@ -77,16 +78,18 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void getEmailGroup(boolean hasEndEmailNumPar, int startEmailNumPar, Integer endEmailNumPar, String emailsToGet){
-        ServerConnector haConnector = new ServerConnector();
+        ServerConnector connector = new ServerConnector();
         try {
-            JSONObject jsonObjForPrevGroup = new JSONObject();
-            jsonObjForPrevGroup.put("username", Data.username);
-            jsonObjForPrevGroup.put("startEmailNum", startEmailNumPar);
-            jsonObjForPrevGroup.put("hasEndEmailNum", hasEndEmailNumPar);
+            JSONObject jsonToSend = new JSONObject();
+            jsonToSend.put("type", "android");
+            jsonToSend.put("username", Data.username);
+            jsonToSend.put("password", Data.password);
+            jsonToSend.put("startEmailNum", startEmailNumPar);
+            jsonToSend.put("hasEndEmailNum", hasEndEmailNumPar);
             if(hasEndEmailNumPar){
-                jsonObjForPrevGroup.put("endEmailNum", endEmailNumPar);
+                jsonToSend.put("endEmailNum", endEmailNumPar);
             }
-            haConnector.connect(this, "http://10.0.0.5:5000/getEmails", "getEmails", jsonObjForPrevGroup, emailsToGet);
+            connector.connect(this, getEmailsUrlStr, "getEmails", jsonToSend, emailsToGet);
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
@@ -96,8 +99,8 @@ public class HomeActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ((TheAdapter)haBinding.emailRv.getAdapter()).reassignItemCount(newItemCount);
-                haBinding.emailRv.getAdapter().notifyItemRangeChanged(0, newItemCount);
+                ((TheAdapter)viewBinding.emailRv.getAdapter()).reassignItemCount(newItemCount);
+                viewBinding.emailRv.getAdapter().notifyItemRangeChanged(0, newItemCount);
             }
         });
     }
